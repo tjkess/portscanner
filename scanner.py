@@ -45,15 +45,20 @@ def udp(t, p):
                 info += packet.summary()
     return info
 
-
+"""
+get arguments from user. the user can specify a target
+ip address or a list of ip address or the user can input a file with a list of ip address separated by commas
+the user must also specify the type of scan that should be done.
+"""
 parser = argparse.ArgumentParser("Welcome to the port scanner")
 parser.add_argument("-t", "--target", help="specify the ip address of your target", nargs="+")
 parser.add_argument("-p", "--ports", help="specify the ports to be scanned", nargs="+", type=int)
 parser.add_argument("-f", "--file", help="include a txt file with targets separated by commas")
 parser.add_argument("-s", "--scan", help="specify the type of scan eg(tcp, udp, icmp)", required=True)
+parser.add_argument("-sf", "--summary", help="specify the file you want to write the summary to")
 
 inputs = parser.parse_args()
-
+summary = ""
 if inputs.target == None and inputs.file == None:
     print("specify -t or -f")
     exit()
@@ -73,6 +78,12 @@ else:
     ports = range(1, 1000)
 scan = inputs.scan.lower()
 if scan == 'udp':
-    udp(target, ports)
+    summary += udp(target, ports)
 elif scan == 'tcp':
-    tcp(target, ports)
+    summary += tcp(target, ports)
+
+if inputs.summary:
+    summary_file = open(inputs.summary + ".txt", "W")
+    summary_file.write(summary)
+    summary_file.close()
+    print("The summary was written to " + inputs.summary + ".txt")
