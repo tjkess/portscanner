@@ -1,11 +1,15 @@
 import argparse
 from scapy.all import *
 
-
+"""
+print out port and state information
+"""
 def print_info(port, state):
     print("%s | %s" % (port, state))
 
-
+"""
+tcp scan 
+"""
 def tcp(t, p):
     print("starting tcp scan on target %s on ports %s" % (t, p))
     source = RandShort()
@@ -24,9 +28,13 @@ def tcp(t, p):
                 else:
                     print_info(port, "idk")
                 info += packet.summary() + '\n'
+            else:
+                print_info(port, "unknown")
     return info
 
-
+"""
+udp scan 
+"""
 def udp(t, p):
     print("starting udp scan on ports %s ...." % p)
     info = ""
@@ -83,7 +91,7 @@ elif scan == 'tcp':
     summary += tcp(target, ports)
 
 if inputs.summary:
-    summary_file = open(inputs.summary + ".txt", "W")
+    summary_file = open(inputs.summary, "w")
     summary_file.write(summary)
     summary_file.close()
     print("The summary was written to " + inputs.summary + ".txt")
