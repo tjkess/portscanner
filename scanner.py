@@ -2,10 +2,20 @@ import argparse
 from scapy.all import *
 
 """
+Built and compiled by TJ Kessinger
+"""
+
+"""
 print out port and state information
 """
 def print_info(port, state):
     print("%s | %s" % (port, state))
+
+"""
+following functions were created by 
+https://github.com/cptpugwash/Scapy-port-scanner/blob/master/port_scanner.py
+"""
+    
 
 """
 tcp scan 
